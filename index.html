@@ -1,115 +1,831 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vignesh Sai | Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <style>
-    body { overflow-x: hidden; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udayagiri Vignesh Sai | Software Engineer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        :root {
+            --apple-black: #000000;
+            --apple-white: #ffffff;
+            --apple-gray: #86868b;
+            --apple-gray-light: #f5f5f7;
+            --apple-blue: #0071e3;
+            --apple-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--apple-white);
+            color: var(--apple-black);
+            overflow-x: hidden;
+        }
+
+        /* Header - Apple Style */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--apple-black);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--apple-blue);
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--apple-black);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--apple-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--apple-blue);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section - Apple Style */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #000000 0%, #434343 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--apple-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.2rem 2.5rem;
+            background: var(--apple-black);
+            color: var(--apple-white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 2px solid var(--apple-black);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--apple-black);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--apple-black);
+            border: 2px solid var(--apple-black);
+        }
+
+        .btn-outline:hover {
+            background: var(--apple-black);
+            color: var(--apple-white);
+        }
+
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .macbook-mockup {
+            width: 600px;
+            height: 400px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 
+                0 50px 100px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+        }
+
+        .macbook-screen {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: var(--apple-black);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .code-animation {
+            color: var(--apple-white);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            padding: 2rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 8rem 5%;
+            background: var(--apple-gray-light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.3rem;
+            color: var(--apple-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            background: var(--apple-white);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--apple-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: var(--apple-white);
+        }
+
+        .skill-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .skill-card p {
+            color: var(--apple-gray);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Experience Section */
+        .experience {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--apple-gray-light);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--apple-white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--apple-blue);
+        }
+
+        .timeline-content .date {
+            color: var(--apple-gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 8rem 5%;
+            background: var(--apple-gray-light);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--apple-white);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-header {
+            height: 200px;
+            background: var(--apple-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--apple-white);
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 2.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-content p {
+            color: var(--apple-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tech-tag {
+            background: var(--apple-gray-light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--apple-black);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--apple-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--apple-white);
+            font-size: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--apple-gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--apple-black);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--apple-gradient);
+            color: var(--apple-white);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background: var(--apple-gray-light);
+            padding: 3rem;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--apple-blue);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--apple-black);
+            color: var(--apple-white);
+            text-align: center;
+            padding: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 6rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .macbook-mockup {
+                width: 100%;
+                max-width: 400px;
+                height: 300px;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+            }
+
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <span>UVS</span>
+                <div class="logo-dot"></div>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#skills">Skills</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="relative text-center py-32 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg overflow-hidden">
-    <div class="relative z-10">
-      <h1 class="text-6xl font-extrabold mb-4 opacity-0" id="hero-name">Udayagiri Vignesh Sai</h1>
-      <p class="text-2xl mb-6 opacity-0" id="hero-role">Software Developer | Cloud & Cybersecurity Enthusiast</p>
-      <div class="space-x-4 opacity-0" id="hero-links">
-        <a href="resume.pdf" class="bg-white text-blue-600 px-6 py-3 rounded-xl shadow-lg hover:scale-110 transition-transform">Resume</a>
-        <a href="https://github.com/vigneshsai52" class="bg-white text-blue-600 px-6 py-3 rounded-xl shadow-lg hover:scale-110 transition-transform">GitHub</a>
-        <a href="https://linkedin.com/in/u-vignesh-sai-107336244" class="bg-white text-blue-600 px-6 py-3 rounded-xl shadow-lg hover:scale-110 transition-transform">LinkedIn</a>
-      </div>
-    </div>
-    <div class="absolute inset-0 bg-[url('https://cdn.jsdelivr.net/gh/akzhy/VantaJS@master/assets/bg.svg')] bg-cover opacity-20"></div>
-  </section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Udayagiri<br>Vignesh Sai</h1>
+            <p>Aspiring Software Engineer specializing in Python backend development, AWS deployment, and security tools. Building secure, scalable applications with cutting-edge technology.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn">
+                    <i class="fas fa-rocket"></i>
+                    View My Work
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <i class="fas fa-paper-plane"></i>
+                    Get In Touch
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="macbook-mockup">
+                <div class="macbook-screen">
+                    <div class="code-animation">
+                        <span style="color: #ff6b6b">def</span> <span style="color: #51cf66">build_secure_app</span>():<br>
+                        &nbsp;&nbsp;<span style="color: #ffa94d">app</span> = Flask(__name__)<br>
+                        &nbsp;&nbsp;<span style="color: #ffa94d">app</span>.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')<br>
+                        &nbsp;&nbsp;<span style="color: #339af0">return</span> <span style="color: #ffa94d">app</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- About -->
-  <section class="max-w-4xl mx-auto py-20 px-6">
-    <h2 class="text-4xl font-bold mb-6 border-b-4 border-blue-500 inline-block">About Me</h2>
-    <p class="text-lg leading-relaxed">Motivated Computer Science student with strong interest in software development, cloud technologies, and cybersecurity. Skilled in building secure applications and deploying scalable solutions on AWS.</p>
-  </section>
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="section-title">
+            <h2>Technical Expertise</h2>
+            <p>Mastering the tools and technologies that power modern applications</p>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i class="fab fa-python"></i>
+                </div>
+                <h3>Python Development</h3>
+                <p>Building robust backend systems with Flask, REST APIs, and automation scripts. Focus on clean, maintainable code and best practices.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3>AWS Cloud</h3>
+                <p>Deploying and managing applications on AWS infrastructure including EC2, S3, IAM, and Security Groups for scalable solutions.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Security Tools</h3>
+                <p>Utilizing Wireshark, Burp Suite, and Nmap for comprehensive security analysis and vulnerability assessment.</p>
+            </div>
+        </div>
+    </section>
 
-  <!-- Projects -->
-  <section class="max-w-6xl mx-auto py-20 px-6">
-    <h2 class="text-4xl font-bold mb-10 border-b-4 border-purple-500 inline-block">Projects</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-        <h3 class="font-semibold text-xl mb-2">AWS Flask Deployment</h3>
-        <p class="mb-3">Deployed a Flask app on AWS EC2 with S3 integration.</p>
-        <a href="https://github.com/vigneshsai52/flask-aws-ec2" class="text-blue-600 font-medium">GitHub Repo →</a>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-        <h3 class="font-semibold text-xl mb-2">XSS Scanner</h3>
-        <p class="mb-3">Python tool to detect Cross-Site Scripting vulnerabilities.</p>
-        <a href="#" class="text-blue-600 font-medium">GitHub Repo →</a>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
-        <h3 class="font-semibold text-xl mb-2">Wireshark Network Analysis</h3>
-        <p class="mb-3">Analyzed packets to detect security threats in networks.</p>
-        <a href="#" class="text-blue-600 font-medium">GitHub Repo →</a>
-      </div>
-    </div>
-  </section>
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="section-title">
+            <h2>Experience & Education</h2>
+            <p>My journey in technology and continuous learning</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Python Developer Intern</h3>
+                    <div class="date">YBI Foundation (Virtual)</div>
+                    <ul>
+                        <li>Developed Python applications using Flask and REST APIs</li>
+                        <li>Automated workflows, reducing manual effort by 30%</li>
+                        <li>Collaborated with remote team using Git version control</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>B.E. Computer Science & Engineering</h3>
+                    <div class="date">2022 – 2026 | RMD Engineering College, Chennai</div>
+                    <p>Currently pursuing bachelor's degree with focus on software engineering and security.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Skills -->
-  <section class="max-w-4xl mx-auto py-20 px-6">
-    <h2 class="text-4xl font-bold mb-6 border-b-4 border-green-500 inline-block">Skills</h2>
-    <div class="grid md:grid-cols-2 gap-6 text-lg">
-      <ul class="list-disc ml-6">
-        <li>Programming: Python, Java, Bash, SQL</li>
-        <li>Web Development: Flask, HTML, CSS</li>
-      </ul>
-      <ul class="list-disc ml-6">
-        <li>Cybersecurity: Wireshark, Burp Suite, Web Security</li>
-        <li>Cloud: AWS (EC2, S3), Linux</li>
-      </ul>
-    </div>
-  </section>
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="section-title">
+            <h2>Featured Projects</h2>
+            <p>Real-world applications showcasing technical expertise</p>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="project-content">
+                    <h3>Secure Flask App on AWS EC2</h3>
+                    <p>Built a Flask web application with secure authentication to prevent SQL injection. Deployed on AWS EC2 with Security Groups & S3 storage, improving load times by 15%.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Security</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="project-content">
+                    <h3>Smart Management System</h3>
+                    <p>Designed a Python-based CRUD system managing 100+ records. Automated performance analysis through Matplotlib visual reports with real-time data processing.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">Matplotlib</span>
+                        <span class="tech-tag">SQL</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Certifications -->
-  <section class="max-w-4xl mx-auto py-20 px-6">
-    <h2 class="text-4xl font-bold mb-6 border-b-4 border-yellow-500 inline-block">Certifications</h2>
-    <ul class="list-disc ml-6 text-lg">
-      <li>Google Cybersecurity</li>
-      <li>Python Essentials (Cisco)</li>
-      <li>Linux Essentials (LPI)</li>
-      <li>SQL Certification (SkillRack)</li>
-    </ul>
-  </section>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-title">
+            <h2>Let's Connect</h2>
+            <p>Ready to build something amazing together?</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h3>Location</h3>
+                        <p>Nellore, Andhra Pradesh, India</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+91 7995792300</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h3>Email</h3>
+                        <p>udayagirivigneshsai@gmail.com</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-  <!-- Contact -->
-  <section class="max-w-4xl mx-auto py-20 px-6">
-    <h2 class="text-4xl font-bold mb-6 border-b-4 border-red-500 inline-block">Contact</h2>
-    <p class="text-lg">📧 <a href="mailto:udayagirivigneshsai@gmail.com" class="text-blue-600">udayagirivigneshsai@gmail.com</a></p>
-    <p class="text-lg">🔗 <a href="https://linkedin.com/in/u-vignesh-sai-107336244" class="text-blue-600">LinkedIn</a></p>
-    <p class="text-lg">💻 <a href="https://github.com/vigneshsai52" class="text-blue-600">GitHub</a></p>
-  </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Udayagiri Vignesh Sai. Crafted with precision and passion.</p>
+    </footer>
 
-  <!-- Footer -->
-  <footer class="text-center py-8 bg-gray-200">
-    <p>© 2025 Vignesh Sai | Portfolio</p>
-  </footer>
+    <script>
+        // Mobile menu functionality
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenu.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
 
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-    gsap.to("#hero-name", {opacity: 1, y: -20, duration: 1});
-    gsap.to("#hero-role", {opacity: 1, y: -10, duration: 1, delay: 0.5});
-    gsap.to("#hero-links", {opacity: 1, duration: 1, delay: 1});
-
-    gsap.utils.toArray("section").forEach(section => {
-      gsap.from(section.querySelectorAll("h2, p, ul, div, li"), {
-        scrollTrigger: { trigger: section, start: "top 85%" },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.2
-      });
-    });
-  </script>
+        // Form submission
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! I will get back to you soon.');
+                this.reset();
+            });
+        }
+    </script>
 </body>
 </html>
