@@ -480,6 +480,18 @@
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
             }
             
             .mobile-menu {
@@ -543,7 +555,7 @@
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>Udayagiri <span>Vignesh Sai</span></h1>
-            <p><strong>Aspiring Software Engineer</strong> with hands-on experience in Python backend development, AWS deployment, and security tools. Skilled in building secure, scalable applications.</p>
+            <p><strong>Aspiring Software Engineer</strong> with hands-on experience in Python backend development, AWS deployment, and security tools. Skilled in building secure, scalable applications using Flask, SQL, and Linux, with a strong foundation in data structures, algorithms, and secure coding practices.</p>
             
             <div class="contact-info">
                 <div class="contact-item">
@@ -607,16 +619,16 @@
                 <h3><i class="fas fa-layer-group"></i> Frameworks</h3>
                 <div class="skill-items">
                     <div class="skill-item">Flask</div>
-                    <div class="skill-item">REST APIs</div>
+                    <div class="skill-item">REST API</div>
                 </div>
             </div>
             <div class="skill-category">
                 <h3><i class="fas fa-cloud"></i> Cloud/DevOps</h3>
                 <div class="skill-items">
                     <div class="skill-item">AWS (EC2, S3, IAM)</div>
+                    <div class="skill-item">Security Groups</div>
                     <div class="skill-item">Linux</div>
                     <div class="skill-item">Git</div>
-                    <div class="skill-item">Security Groups</div>
                 </div>
             </div>
             <div class="skill-category">
@@ -659,9 +671,9 @@
                     <h3>Python Developer Intern</h3>
                     <div class="company">YBI Foundation (Virtual)</div>
                     <ul>
-                        <li>Developed Python applications using Flask and REST APIs, enhancing project functionality</li>
-                        <li>Automated workflows, reducing manual effort by 30%</li>
-                        <li>Collaborated with remote team using Git version control for efficient project management</li>
+                        <li>Developed Python applications using Flask and REST APIs, enhancing project functionality.</li>
+                        <li>Automated workflows, reducing manual effort by 30%.</li>
+                        <li>Collaborated with a remote team using Git version control for efficient project management.</li>
                     </ul>
                 </div>
             </div>
@@ -685,7 +697,7 @@
                     <div class="project-tech">
                         <div class="tech-tag">Python</div>
                         <div class="tech-tag">Flask</div>
-                        <div class="tech-tag">AWS</div>
+                        <div class="tech-tag">AWS (EC2, S3)</div>
                         <div class="tech-tag">Linux</div>
                     </div>
                     <a href="#" class="btn">
@@ -696,15 +708,17 @@
             </div>
             <div class="project-card">
                 <div class="project-header">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-shopping-cart"></i>
                 </div>
                 <div class="project-content">
-                    <h3>Smart Management System</h3>
-                    <p>Designed a Python-based CRUD system managing 100+ records. Automated performance analysis through Matplotlib visual reports.</p>
+                    <h3>E-Commerce Backend API (Flask, JWT)</h3>
+                    <p>Developed RESTful APIs using Flask for user authentication, product listing, and cart management. Implemented JWT-based authentication and integrated SQLite database.</p>
                     <div class="project-tech">
                         <div class="tech-tag">Python</div>
-                        <div class="tech-tag">Pandas</div>
-                        <div class="tech-tag">Matplotlib</div>
+                        <div class="tech-tag">Flask</div>
+                        <div class="tech-tag">JWT</div>
+                        <div class="tech-tag">SQLite</div>
+                        <div class="tech-tag">Render</div>
                     </div>
                     <a href="#" class="btn">
                         <i class="fab fa-github"></i>
@@ -735,7 +749,7 @@
             </div>
             <div class="education-item">
                 <h3>Class X</h3>
-                <p>Vowel 14 School, Nellore</p>
+                <p>Vowel School, Nellore</p>
                 <p><strong>2019</strong></p>
             </div>
         </div>
@@ -755,11 +769,11 @@
             </div>
             <div class="cert-item">
                 <h3>Linux Essentials</h3>
-                <p>LPI</p>
+                <p>Great Learning Academy</p>
             </div>
             <div class="cert-item">
                 <h3>SQL</h3>
-                <p>SkillRack</p>
+                <p>Intelligent Software Solutions</p>
             </div>
         </div>
     </section>
@@ -787,7 +801,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2023 Udayagiri Vignesh Sai. All Rights Reserved.</p>
+        <p>&copy; 2024 Udayagiri Vignesh Sai. All Rights Reserved.</p>
         <div class="social-links">
             <a href="#" class="social-link">
                 <i class="fab fa-linkedin-in"></i>
@@ -804,7 +818,14 @@
         const navLinks = document.querySelector('.nav-links');
         
         mobileMenu.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
         });
 
         // Smooth scrolling for navigation links
