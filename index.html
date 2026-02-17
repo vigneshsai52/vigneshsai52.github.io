@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -31,7 +30,7 @@
         }
 
         html {
-            scroll-behavior: auto;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -40,54 +39,6 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
-        }
-
-        /* Smooth Scroll Container */
-        .lenis.lenis-smooth {
-            scroll-behavior: auto;
-        }
-
-        /* Noise Texture Overlay */
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--text-primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-            mix-blend-mode: difference;
-        }
-
-        .cursor.hover {
-            transform: scale(2.5);
-            background: var(--text-primary);
-            border-color: transparent;
-        }
-
-        .cursor-dot {
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            transition: transform 0.1s ease;
         }
 
         /* Navigation */
@@ -101,34 +52,17 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            mix-blend-mode: difference;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.2rem;
-            font-weight: 500;
-            letter-spacing: -0.02em;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--accent);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover::after {
-            transform: translateX(0);
         }
 
         .nav-links {
@@ -140,26 +74,14 @@
         .nav-links a {
             color: var(--text-primary);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 400;
-            position: relative;
-            padding: 0.5rem 0;
             transition: color 0.3s ease;
+            position: relative;
         }
 
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::before {
-            width: 100%;
+        .nav-links a:hover {
+            color: var(--accent);
         }
 
         /* Hero Section */
@@ -168,24 +90,68 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 4rem;
+            padding: 8rem 4rem 4rem;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--accent);
+            top: -10%;
+            right: -10%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #ff8c42;
+            bottom: 10%;
+            right: 20%;
+            animation: float 25s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
         .hero-content {
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-eyebrow {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--accent);
-            margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent);
+            border-radius: 50px;
         }
 
         .hero-title {
@@ -194,16 +160,6 @@
             line-height: 1;
             letter-spacing: -0.03em;
             margin-bottom: 2rem;
-        }
-
-        .hero-title .line {
-            display: block;
-            overflow: hidden;
-        }
-
-        .hero-title .line span {
-            display: block;
-            transform: translateY(100%);
         }
 
         .hero-title .accent {
@@ -218,17 +174,10 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 20%;
+            height: 30%;
             background: var(--accent-glow);
-            filter: blur(20px);
+            filter: blur(40px);
             z-index: -1;
-            opacity: 0;
-            animation: glowPulse 3s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
         }
 
         .hero-description {
@@ -237,114 +186,53 @@
             color: var(--text-secondary);
             line-height: 1.8;
             margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
         .hero-cta {
             display: flex;
             gap: 2rem;
             align-items: center;
-            opacity: 0;
-            transform: translateY(20px);
+            flex-wrap: wrap;
         }
 
         .btn {
             padding: 1rem 2.5rem;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
+            background: var(--accent);
+            border: none;
+            color: var(--bg-primary);
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--accent);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            transform: translateY(0);
+            border-radius: 50px;
         }
 
         .btn:hover {
-            border-color: var(--accent);
-            color: var(--bg-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px var(--accent-glow);
         }
 
-        .btn-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-
-        .btn-text:hover {
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
             color: var(--text-primary);
         }
 
-        /* Floating Elements */
-        .floating-shapes {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-        }
-
-        .shape-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent);
-            top: 20%;
-            right: 10%;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .shape-2 {
-            width: 300px;
-            height: 300px;
-            background: #ff8c42;
-            bottom: 20%;
-            right: 30%;
-            animation: float 25s infinite ease-in-out reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: none;
         }
 
         /* Marquee */
         .marquee {
             background: var(--bg-secondary);
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             overflow: hidden;
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
@@ -352,7 +240,7 @@
 
         .marquee-content {
             display: flex;
-            animation: marquee 30s linear infinite;
+            animation: marquee 20s linear infinite;
             white-space: nowrap;
         }
 
@@ -360,7 +248,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
             color: var(--text-muted);
-            padding: 0 3rem;
+            padding: 0 2rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -377,12 +265,12 @@
 
         /* Section Styles */
         section {
-            padding: 10rem 4rem;
+            padding: 8rem 4rem;
             position: relative;
         }
 
         .section-header {
-            margin-bottom: 6rem;
+            margin-bottom: 4rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
@@ -394,7 +282,7 @@
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .section-title {
@@ -419,35 +307,39 @@
         }
 
         .about-text {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
             line-height: 1.8;
         }
 
         .about-text p {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
+            gap: 2rem;
         }
 
         .stat-item {
-            border-left: 2px solid var(--border);
-            padding-left: 2rem;
-            transition: border-color 0.3s ease;
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
         .stat-item:hover {
             border-color: var(--accent);
+            transform: translateY(-5px);
         }
 
         .stat-number {
             font-size: 3rem;
             font-weight: 800;
-            color: var(--text-primary);
+            color: var(--accent);
             display: block;
             margin-bottom: 0.5rem;
         }
@@ -464,44 +356,26 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
         .skill-card {
             background: var(--bg-tertiary);
             border: 1px solid var(--border);
-            padding: 3rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+            padding: 2.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
         }
 
         .skill-card:hover {
-            border-color: var(--border-hover);
+            border-color: var(--accent);
             transform: translateY(-5px);
-        }
-
-        .skill-card:hover::before {
-            transform: scaleX(1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .skill-icon {
-            font-size: 2rem;
-            color: var(--accent);
+            font-size: 2.5rem;
             margin-bottom: 1.5rem;
         }
 
@@ -509,6 +383,7 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .skill-list {
@@ -519,7 +394,7 @@
 
         .skill-list li {
             margin-bottom: 0.5rem;
-            padding-left: 1rem;
+            padding-left: 1.5rem;
             position: relative;
         }
 
@@ -528,12 +403,6 @@
             position: absolute;
             left: 0;
             color: var(--accent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .skill-card:hover .skill-list li::before {
-            opacity: 1;
         }
 
         /* Projects Section */
@@ -548,9 +417,11 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            padding: 4rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.4s ease;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .project-item:hover {
@@ -559,25 +430,17 @@
 
         .project-image {
             aspect-ratio: 16/10;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
             position: relative;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .project-item:hover .project-image img {
-            transform: scale(1.05);
+            overflow: hidden;
         }
 
         .project-content {
-            padding: 2rem 0;
+            padding: 3rem;
         }
 
         .project-year {
@@ -588,30 +451,31 @@
         }
 
         .project-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             letter-spacing: -0.02em;
         }
 
         .project-description {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.8;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .project-tags {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .project-tag {
-            padding: 0.5rem 1rem;
-            background: var(--bg-secondary);
+            padding: 0.4rem 1rem;
+            background: var(--bg-tertiary);
             border: 1px solid var(--border);
+            border-radius: 50px;
             font-size: 0.85rem;
             color: var(--text-secondary);
             transition: all 0.3s ease;
@@ -625,15 +489,15 @@
         .project-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            color: var(--text-primary);
+            gap: 0.5rem;
+            color: var(--accent);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            transition: gap 0.3s ease;
         }
 
         .project-link:hover {
-            color: var(--accent);
+            gap: 1rem;
         }
 
         /* Experience Timeline */
@@ -648,34 +512,26 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 1px;
+            width: 2px;
             background: var(--border);
         }
 
         .timeline-item {
             padding-left: 3rem;
-            padding-bottom: 4rem;
+            padding-bottom: 3rem;
             position: relative;
-            transition: all 0.3s ease;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -4px;
+            left: -5px;
             top: 0;
-            width: 9px;
-            height: 9px;
-            background: var(--bg-primary);
-            border: 2px solid var(--border);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .timeline-item:hover::before {
+            width: 12px;
+            height: 12px;
             background: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent);
         }
 
         .timeline-date {
@@ -704,7 +560,8 @@
         /* Contact Section */
         .contact {
             text-align: center;
-            padding: 15rem 4rem;
+            padding: 10rem 4rem;
+            background: var(--bg-secondary);
         }
 
         .contact-title {
@@ -715,39 +572,31 @@
         }
 
         .contact-email {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
             color: var(--accent);
             text-decoration: none;
-            position: relative;
             display: inline-block;
             margin-bottom: 3rem;
-            transition: color 0.3s ease;
+            padding: 1rem 2rem;
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            transition: all 0.3s ease;
         }
 
-        .contact-email::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
+        .contact-email:hover {
             background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .contact-email:hover::after {
-            width: 100%;
+            color: var(--bg-primary);
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .social-link {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border: 1px solid var(--border);
             border-radius: 50%;
             display: flex;
@@ -755,67 +604,23 @@
             justify-content: center;
             color: var(--text-secondary);
             text-decoration: none;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
         }
 
         .social-link:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
         }
 
         /* Footer */
         footer {
             padding: 3rem 4rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
-        }
-
-        .footer-credit {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .about-grid,
-            .project-item {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .cursor, .cursor-dot {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            section {
-                padding: 6rem 2rem;
-            }
-
-            .hero {
-                padding: 0 2rem;
-            }
-
-            nav {
-                padding: 1.5rem 2rem;
-            }
-
-            .floating-shapes {
-                display: none;
-            }
+            border-top: 1px solid var(--border);
         }
 
         /* Scroll Progress */
@@ -824,18 +629,75 @@
             top: 0;
             left: 0;
             width: 0%;
-            height: 2px;
+            height: 3px;
             background: var(--accent);
-            z-index: 10001;
+            z-index: 1000;
             box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-grid,
+            .project-item {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-item {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .project-content {
+                padding: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 2rem;
+            }
+
+            .hero {
+                padding: 6rem 2rem 4rem;
+            }
+
+            nav {
+                padding: 1.5rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
         }
     </style>
 </head>
 <body>
-    <div class="noise"></div>
     <div class="scroll-progress"></div>
-    <div class="cursor"></div>
-    <div class="cursor-dot"></div>
 
     <nav>
         <a href="#" class="logo">UVS.</a>
@@ -849,24 +711,24 @@
     </nav>
 
     <section class="hero">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
         </div>
         
         <div class="hero-content">
             <div class="hero-eyebrow">Software Engineer & Security Specialist</div>
             <h1 class="hero-title">
-                <div class="line"><span>Crafting Digital</span></div>
-                <div class="line"><span>Experiences with</span></div>
-                <div class="line"><span class="accent">Purpose.</span></div>
+                Crafting Digital<br>
+                Experiences with<br>
+                <span class="accent">Purpose.</span>
             </h1>
             <p class="hero-description">
                 I'm Udayagiri Vignesh Sai, a backend developer specializing in secure, scalable Python applications and cloud infrastructure. Currently building the future at YBI Foundation.
             </p>
             <div class="hero-cta">
                 <a href="#work" class="btn">View Selected Work</a>
-                <a href="#contact" class="btn-text">Get in Touch →</a>
+                <a href="#contact" class="btn btn-outline">Get in Touch</a>
             </div>
         </div>
     </section>
@@ -900,7 +762,7 @@
         <div class="about-grid">
             <div class="about-text">
                 <p>As an aspiring Software Engineer with a passion for cybersecurity, I bridge the gap between robust backend development and secure system architecture. My journey began with a fascination for how things work under the hood, which evolved into a career building scalable Python applications.</p>
-                <p>Currently pursuing my B.E. in Computer Science at RMD Engineering College, I combine academic knowledge with hands-on experience in cloud deployment, security analysis, and automation. I've solved 50+ algorithmic challenges and hold certifications in Google Cybersecurity, Python, and Linux.</p>
+                <p>Currently pursuing my B.E. in Computer Science at RMD Engineering College, I combine academic knowledge with hands-on experience in cloud deployment, security analysis, and automation.</p>
             </div>
             <div class="stats-grid">
                 <div class="stat-item">
@@ -1003,9 +865,7 @@
         
         <div class="projects-list">
             <div class="project-item">
-                <div class="project-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect fill='%23111' width='800' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='20' fill='%23ff6b35'%3ESecure Flask App%3C/text%3E%3C/svg%3E" alt="Secure Flask App">
-                </div>
+                <div class="project-image">🔐</div>
                 <div class="project-content">
                     <div class="project-year">2024</div>
                     <h3 class="project-title">Secure Flask App on AWS</h3>
@@ -1035,9 +895,7 @@
                     </div>
                     <a href="#" class="project-link">View Project →</a>
                 </div>
-                <div class="project-image">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect fill='%23111' width='800' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='20' fill='%23ff6b35'%3EE-Commerce API%3C/text%3E%3C/svg%3E" alt="E-Commerce API">
-                </div>
+                <div class="project-image">🛒</div>
             </div>
         </div>
     </section>
@@ -1073,205 +931,70 @@
         <h2 class="contact-title">Let's build something extraordinary.</h2>
         <a href="mailto:udayagirivigneshsai@gmail.com" class="contact-email">udayagirivigneshsai@gmail.com</a>
         <div class="social-links">
-            <a href="#" class="social-link" aria-label="LinkedIn">
+            <a href="#" class="social-link" title="LinkedIn">
                 <i class="fab fa-linkedin-in"></i>
             </a>
-            <a href="#" class="social-link" aria-label="GitHub">
+            <a href="#" class="social-link" title="GitHub">
                 <i class="fab fa-github"></i>
             </a>
-            <a href="#" class="social-link" aria-label="Twitter">
+            <a href="#" class="social-link" title="Twitter">
                 <i class="fab fa-twitter"></i>
             </a>
-            <a href="#" class="social-link" aria-label="Download Resume">
+            <a href="#" class="social-link" title="Download Resume">
                 <i class="fas fa-file-download"></i>
             </a>
         </div>
     </section>
 
     <footer>
-        <div>© 2024 Udayagiri Vignesh Sai. All rights reserved.</div>
-        <div class="footer-credit">Designed & Built with passion</div>
+        <p>© 2024 Udayagiri Vignesh Sai. All rights reserved.</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
-        // Initialize Lenis Smooth Scroll
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            smoothTouch: false,
-            touchMultiplier: 2
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // GSAP ScrollTrigger integration with Lenis
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
-        });
-        gsap.ticker.lagSmoothing(0);
-
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorDot = document.querySelector('.cursor-dot');
-        
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, { x: e.clientX - 10, y: e.clientY - 10, duration: 0.1 });
-            gsap.to(cursorDot, { x: e.clientX - 2, y: e.clientY - 2, duration: 0.5 });
-        });
-
-        document.querySelectorAll('a, button, .skill-card, .project-item').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
         // Scroll Progress Bar
-        gsap.to('.scroll-progress', {
-            width: '100%',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: document.body,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 0.3
-            }
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
         });
 
-        // Hero Animations
-        const heroTl = gsap.timeline();
-        
-        heroTl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.8, delay: 0.2 })
-              .to('.hero-title .line span', { y: 0, duration: 1, stagger: 0.1, ease: 'power4.out' }, '-=0.4')
-              .to('.hero-description', { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
-              .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8 }, '-=0.4');
+        // Animate Stats Counter
+        const animateStats = () => {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
 
-        // Section Headers Animation
-        gsap.utils.toArray('.section-header').forEach(header => {
-            gsap.from(header, {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: header,
-                    start: 'top 85%',
-                    toggleActions: 'play none none reverse'
-                }
-            });
-        });
+                const updateStat = () => {
+                    current += increment;
+                    if (current < target) {
+                        stat.textContent = Math.floor(current);
+                        requestAnimationFrame(updateStat);
+                    } else {
+                        stat.textContent = target;
+                    }
+                };
 
-        // Stats Counter Animation
-        gsap.utils.toArray('.stat-number').forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            
-            ScrollTrigger.create({
-                trigger: stat,
-                start: 'top 85%',
-                onEnter: () => {
-                    gsap.to(stat, {
-                        innerHTML: target,
-                        duration: 2,
-                        snap: { innerHTML: 1 },
-                        ease: 'power2.out'
+                // Trigger when in view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateStat();
+                            observer.unobserve(entry.target);
+                        }
                     });
-                }
+                }, { threshold: 0.5 });
+
+                observer.observe(stat);
             });
-        });
+        };
 
-        // Skill Cards Stagger Animation
-        gsap.from('.skill-card', {
-            y: 60,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.skills-grid',
-                start: 'top 80%'
-            }
-        });
-
-        // Project Items Animation
-        gsap.utils.toArray('.project-item').forEach((item, i) => {
-            gsap.from(item, {
-                y: 80,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: item,
-                    start: 'top 85%',
-                    toggleActions: 'play none none reverse'
-                }
-            });
-        });
-
-        // Timeline Animation
-        gsap.from('.timeline-item', {
-            x: -30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.timeline',
-                start: 'top 80%'
-            }
-        });
-
-        // Parallax Effect for Floating Shapes
-        gsap.to('.shape-1', {
-            y: 100,
-            scrollTrigger: {
-                trigger: '.hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-
-        gsap.to('.shape-2', {
-            y: -100,
-            scrollTrigger: {
-                trigger: '.hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-
-        // Magnetic Effect for Buttons
-        document.querySelectorAll('.btn, .social-link').forEach(button => {
-            button.addEventListener('mousemove', (e) => {
-                const rect = button.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                gsap.to(button, {
-                    x: x * 0.3,
-                    y: y * 0.3,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-
-            button.addEventListener('mouseleave', () => {
-                gsap.to(button, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-        });
+        animateStats();
 
         // Smooth Scroll for Navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1279,18 +1002,29 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    lenis.scrollTo(target);
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Marquee Speed based on Scroll
-        let marqueeSpeed = 1;
-        const marqueeContent = document.querySelector('.marquee-content');
+        // Reveal Animations on Scroll
+        const revealElements = document.querySelectorAll('.skill-card, .project-item, .timeline-item');
         
-        lenis.on('scroll', ({ velocity }) => {
-            marqueeSpeed = 1 + Math.abs(velocity) * 0.01;
-            marqueeContent.style.animationDuration = `${30 / marqueeSpeed}s`;
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            revealObserver.observe(el);
         });
     </script>
 </body>
