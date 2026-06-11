@@ -177,7 +177,7 @@ body{
 .proof{padding:8rem 8%}
 .projects-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
   gap:2rem;
 }
 .project-card{
@@ -193,20 +193,132 @@ body{
   border-color:var(--accent);
   box-shadow:0 20px 40px -15px #00000080,0 0 60px var(--accent-glow);
 }
-.project-image{
-  height:180px;
+
+/* PROJECT VISUALS - CSS ONLY */
+.project-visual{
+  height:200px;
+  position:relative;
+  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
-  position:relative;
-  overflow:hidden;
 }
-.project-icon{
-  font-size:4rem;
-  filter:drop-shadow(0 0 20px var(--accent-glow));
-  transition:transform .3s ease;
+
+/* SplitBill Pro - Payment Flow Animation */
+.splitbill-visual{
+  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
 }
-.project-card:hover .project-icon{transform:scale(1.1)}
+.splitbill-visual::before{
+  content:'';
+  position:absolute;
+  width:120px;
+  height:120px;
+  border:3px solid var(--accent);
+  border-radius:50%;
+  animation:ripple 2s ease-out infinite;
+}
+.splitbill-visual::after{
+  content:'💳';
+  font-size:3rem;
+  z-index:2;
+  animation:float 3s ease-in-out infinite;
+}
+@keyframes ripple{
+  0%{transform:scale(0.8);opacity:1}
+  100%{transform:scale(1.5);opacity:0}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* ContractScan - AI Scanning Animation */
+.contractscan-visual{
+  background:linear-gradient(135deg,#2d1b4e 0%,#1a1a2e 100%);
+}
+.scan-line{
+  position:absolute;
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:scan 2s ease-in-out infinite;
+}
+@keyframes scan{
+  0%{top:20%;opacity:0}
+  50%{opacity:1}
+  100%{top:80%;opacity:0}
+}
+.contractscan-visual::after{
+  content:'📄';
+  font-size:3rem;
+  z-index:2;
+  animation:pulse-glow 2s ease-in-out infinite;
+}
+@keyframes pulse-glow{
+  0%,100%{filter:drop-shadow(0 0 10px var(--accent))}
+  50%{filter:drop-shadow(0 0 30px var(--accent))}
+}
+
+/* RaftKV - Distributed Nodes Animation */
+.raftkv-visual{
+  background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);
+}
+.node{
+  position:absolute;
+  width:40px;
+  height:40px;
+  border:2px solid var(--accent);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.75rem;
+  color:var(--accent);
+  background:var(--surface);
+}
+.node-1{top:30%;left:30%;animation:node-pulse 1.5s ease-in-out infinite}
+.node-2{top:30%;right:30%;animation:node-pulse 1.5s ease-in-out infinite .5s}
+.node-3{bottom:30%;left:50%;transform:translateX(-50%);animation:node-pulse 1.5s ease-in-out infinite 1s}
+.node::before{
+  content:'N';
+}
+.node-1::after{content:'1'}
+.node-2::after{content:'2'}
+.node-3::after{content:'3'}
+@keyframes node-pulse{
+  0%,100%{box-shadow:0 0 10px var(--accent-glow)}
+  50%{box-shadow:0 0 30px var(--accent)}
+}
+.connection{
+  position:absolute;
+  height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent,var(--accent));
+  animation:data-flow 2s linear infinite;
+}
+.conn-1{
+  width:80px;
+  top:35%;
+  left:35%;
+  transform:rotate(25deg);
+}
+.conn-2{
+  width:80px;
+  top:35%;
+  right:35%;
+  transform:rotate(-25deg);
+}
+.conn-3{
+  width:60px;
+  bottom:35%;
+  left:50%;
+  transform:translateX(-50%) rotate(90deg);
+}
+@keyframes data-flow{
+  0%{background-position:-100% 0}
+  100%{background-position:100% 0}
+}
+
 .project-content{padding:1.75rem}
 .project-title{
   font-size:1.375rem;
@@ -499,9 +611,7 @@ body{
 
     <!-- Card 1: SplitBill Pro -->
     <article class="project-card" data-tilt>
-      <div class="project-image" style="background: linear-gradient(135deg, #667eea22, #764ba222);">
-        <div class="project-icon">⚡</div>
-      </div>
+      <div class="project-visual splitbill-visual"></div>
       <div class="project-content">
         <h3 class="project-title">SplitBill Pro</h3>
         <p class="project-description">
@@ -524,8 +634,8 @@ body{
 
     <!-- Card 2: ContractScan -->
     <article class="project-card" data-tilt>
-      <div class="project-image" style="background: linear-gradient(135deg, #f093fb22, #f5576c22);">
-        <div class="project-icon">🤖</div>
+      <div class="project-visual contractscan-visual">
+        <div class="scan-line"></div>
       </div>
       <div class="project-content">
         <h3 class="project-title">ContractScan</h3>
@@ -549,8 +659,13 @@ body{
 
     <!-- Card 3: RaftKV -->
     <article class="project-card" data-tilt>
-      <div class="project-image" style="background: linear-gradient(135deg, #4facfe22, #00f2fe22);">
-        <div class="project-icon">🌐</div>
+      <div class="project-visual raftkv-visual">
+        <div class="node node-1"></div>
+        <div class="node node-2"></div>
+        <div class="node node-3"></div>
+        <div class="connection conn-1"></div>
+        <div class="connection conn-2"></div>
+        <div class="connection conn-3"></div>
       </div>
       <div class="project-content">
         <h3 class="project-title">RaftKV</h3>
