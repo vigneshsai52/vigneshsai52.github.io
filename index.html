@@ -4,858 +4,707 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vignesh Sai — Backend Engineer</title>
-<meta name="description" content="Backend Engineer who ships production systems. FastAPI, PostgreSQL, Docker, distributed systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* === RESET === */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+:root{
+  --accent:#6366f1;
+  --accent-light:#818cf8;
+  --bg:#0f0f11;
+  --surface:#18181b;
+  --surface-hover:#27272a;
+  --text:#fafafa;
+  --text-secondary:#a1a1aa;
+  --border:#27272a;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#0a0a0f;
-  color:#e0e0ff;
+  background:var(--bg);
+  color:var(--text);
   line-height:1.6;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-::selection{background:#667eea44;color:#fff}
-
-/* === VARIABLES === */
-:root{
-  --accent:#667eea;
-  --accent-glow:#667eea33;
-  --bg:#0a0a0f;
-  --surface:#111118;
-  --text:#e0e0ff;
-  --text-secondary:#6b7280;
-  --border:#ffffff08;
+  font-size:16px;
 }
 
-/* === UTILITIES === */
-.section-header{margin-bottom:4rem}
-.section-eyebrow{
+/* NAV */
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  padding:1.25rem 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(15,15,17,0.8);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  z-index:100;
+}
+
+.logo{
   font-family:'JetBrains Mono',monospace;
-  font-size:.75rem;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-  color:var(--accent);
-  margin-bottom:.75rem;
-  display:block;
-}
-.section-title{
-  font-size:clamp(2rem,5vw,3.5rem);
   font-weight:700;
-  line-height:1.1;
+  font-size:1.25rem;
+  color:var(--text);
+  text-decoration:none;
 }
 
-/* === HERO === */
+.nav-links{
+  display:flex;
+  gap:2rem;
+  list-style:none;
+}
+
+.nav-links a{
+  color:var(--text-secondary);
+  text-decoration:none;
+  font-size:0.875rem;
+  font-weight:500;
+  transition:color 0.2s;
+}
+
+.nav-links a:hover{
+  color:var(--accent);
+}
+
+/* HERO */
 .hero{
   min-height:100vh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  gap:4rem;
-  padding:0 8%;
-  position:relative;
-}
-.hero-content{max-width:600px}
-.hero-eyebrow{
-  font-family:'JetBrains Mono',monospace;
-  font-size:.875rem;
-  color:var(--accent);
-  margin-bottom:1.5rem;
   display:flex;
   align-items:center;
-  gap:.75rem;
+  padding:8rem 5% 5rem;
+  max-width:1400px;
+  margin:0 auto;
 }
-.hero-eyebrow::before{
-  content:'';
-  width:40px;
-  height:1px;
-  background:var(--accent);
-  animation:pulse 2s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-.hero-title{
-  font-size:clamp(3rem,6vw,5rem);
-  font-weight:800;
-  line-height:1;
-  margin-bottom:1.5rem;
-  letter-spacing:-.02em;
+.hero-content{
+  max-width:640px;
 }
-.hero-subtitle{
-  display:block;
-  font-size:1.25rem;
-  font-weight:400;
-  color:var(--text-secondary);
-  margin-top:.75rem;
-  font-family:'JetBrains Mono',monospace;
-}
-.hero-description{
-  font-size:1.125rem;
-  color:var(--text-secondary);
-  margin-bottom:2.5rem;
-  max-width:480px;
-}
-.hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
 
-/* Code Window */
-.hero-visual{display:flex;align-items:center;justify-content:center}
-.code-window{
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.5rem 1rem;
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:12px;
-  width:100%;
-  max-width:400px;
-  overflow:hidden;
-  box-shadow:0 25px 50px -12px #00000080,0 0 100px var(--accent-glow);
-}
-.code-header{
-  background:#0d0d12;
-  padding:.75rem 1rem;
-  display:flex;
-  gap:.5rem;
-  border-bottom:1px solid var(--border);
-}
-.code-header span{
-  width:12px;height:12px;
-  border-radius:50%;
-  background:#ff5f56;
-  display:inline-block;
-}
-.code-header span:nth-child(2){background:#ffbd2e}
-.code-header span:nth-child(3){background:#27c93f}
-.code-body{
-  padding:1.5rem;
+  border-radius:9999px;
   font-family:'JetBrains Mono',monospace;
-  font-size:.875rem;
-  line-height:1.8;
-  white-space:pre-wrap;
-  min-height:160px;
+  font-size:0.75rem;
+  color:var(--accent);
+  margin-bottom:1.5rem;
 }
-.code-comment{color:var(--text-secondary)}
-.code-key{color:#7dd3fc}
-.code-value{color:#86efac}
 
-/* === BUTTONS === */
+.hero-badge::before{
+  content:'';
+  width:8px;
+  height:8px;
+  background:var(--accent);
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.5}
+}
+
+.hero-title{
+  font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:800;
+  line-height:1.1;
+  margin-bottom:1.5rem;
+  letter-spacing:-0.02em;
+}
+
+.hero-title span{
+  color:var(--accent);
+}
+
+.hero-desc{
+  font-size:1.125rem;
+  color:var(--text-secondary);
+  margin-bottom:2rem;
+  max-width:480px;
+  line-height:1.7;
+}
+
+.hero-stats{
+  display:flex;
+  gap:2rem;
+  margin-bottom:2.5rem;
+}
+
+.stat{
+  display:flex;
+  flex-direction:column;
+}
+
+.stat-value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--text);
+}
+
+.stat-label{
+  font-size:0.75rem;
+  color:var(--text-secondary);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+
+.hero-cta{
+  display:flex;
+  gap:1rem;
+}
+
 .btn{
   display:inline-flex;
   align-items:center;
-  gap:.5rem;
-  padding:.875rem 1.75rem;
+  gap:0.5rem;
+  padding:0.875rem 1.5rem;
   border-radius:8px;
   font-weight:600;
-  font-size:.9375rem;
+  font-size:0.9375rem;
   text-decoration:none;
-  transition:all .2s ease;
+  transition:all 0.2s;
   border:none;
   cursor:pointer;
 }
+
 .btn-primary{
   background:var(--accent);
-  color:#fff;
-  box-shadow:0 0 30px var(--accent-glow);
+  color:white;
 }
+
 .btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 50px var(--accent);
+  background:var(--accent-light);
+  transform:translateY(-1px);
 }
-.btn-ghost{
-  background:transparent;
+
+.btn-secondary{
+  background:var(--surface);
   color:var(--text);
   border:1px solid var(--border);
 }
-.btn-ghost:hover{
+
+.btn-secondary:hover{
+  background:var(--surface-hover);
   border-color:var(--accent);
-  color:var(--accent);
 }
 
-/* === PROOF === */
-.proof{padding:8rem 8%}
-.projects-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-  gap:2rem;
+/* SECTIONS */
+section{
+  padding:6rem 5%;
+  max-width:1400px;
+  margin:0 auto;
 }
-.project-card{
+
+.section-header{
+  margin-bottom:3rem;
+}
+
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  margin-bottom:0.5rem;
+}
+
+.section-title{
+  font-size:clamp(1.75rem,4vw,2.5rem);
+  font-weight:700;
+}
+
+/* PROJECTS */
+.projects{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+  gap:1.5rem;
+}
+
+.project{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:16px;
+  border-radius:12px;
   overflow:hidden;
-  transition:all .3s ease;
-  position:relative;
+  transition:transform 0.2s,border-color 0.2s;
 }
-.project-card:hover{
-  transform:translateY(-8px);
+
+.project:hover{
+  transform:translateY(-4px);
   border-color:var(--accent);
-  box-shadow:0 20px 40px -15px #00000080,0 0 60px var(--accent-glow);
 }
 
-/* PROJECT VISUALS - CSS ONLY */
-.project-visual{
-  height:200px;
-  position:relative;
-  overflow:hidden;
+.project-header{
+  padding:1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
+
+.project-icon{
+  width:48px;
+  height:48px;
+  border-radius:10px;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:1.5rem;
 }
 
-/* SplitBill Pro - Payment Flow Animation */
-.splitbill-visual{
-  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
-}
-.splitbill-visual::before{
-  content:'';
-  position:absolute;
-  width:120px;
-  height:120px;
-  border:3px solid var(--accent);
-  border-radius:50%;
-  animation:ripple 2s ease-out infinite;
-}
-.splitbill-visual::after{
-  content:'💳';
-  font-size:3rem;
-  z-index:2;
-  animation:float 3s ease-in-out infinite;
-}
-@keyframes ripple{
-  0%{transform:scale(0.8);opacity:1}
-  100%{transform:scale(1.5);opacity:0}
-}
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
+.project-icon.splitbill{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
 }
 
-/* ContractScan - AI Scanning Animation */
-.contractscan-visual{
-  background:linear-gradient(135deg,#2d1b4e 0%,#1a1a2e 100%);
-}
-.scan-line{
-  position:absolute;
-  width:100%;
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
-  animation:scan 2s ease-in-out infinite;
-}
-@keyframes scan{
-  0%{top:20%;opacity:0}
-  50%{opacity:1}
-  100%{top:80%;opacity:0}
-}
-.contractscan-visual::after{
-  content:'📄';
-  font-size:3rem;
-  z-index:2;
-  animation:pulse-glow 2s ease-in-out infinite;
-}
-@keyframes pulse-glow{
-  0%,100%{filter:drop-shadow(0 0 10px var(--accent))}
-  50%{filter:drop-shadow(0 0 30px var(--accent))}
+.project-icon.contract{
+  background:linear-gradient(135deg,#ec4899,#f43f5e);
 }
 
-/* RaftKV - Distributed Nodes Animation */
-.raftkv-visual{
-  background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);
-}
-.node{
-  position:absolute;
-  width:40px;
-  height:40px;
-  border:2px solid var(--accent);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.75rem;
-  color:var(--accent);
-  background:var(--surface);
-}
-.node-1{top:30%;left:30%;animation:node-pulse 1.5s ease-in-out infinite}
-.node-2{top:30%;right:30%;animation:node-pulse 1.5s ease-in-out infinite .5s}
-.node-3{bottom:30%;left:50%;transform:translateX(-50%);animation:node-pulse 1.5s ease-in-out infinite 1s}
-.node::before{
-  content:'N';
-}
-.node-1::after{content:'1'}
-.node-2::after{content:'2'}
-.node-3::after{content:'3'}
-@keyframes node-pulse{
-  0%,100%{box-shadow:0 0 10px var(--accent-glow)}
-  50%{box-shadow:0 0 30px var(--accent)}
-}
-.connection{
-  position:absolute;
-  height:2px;
-  background:linear-gradient(90deg,var(--accent),transparent,var(--accent));
-  animation:data-flow 2s linear infinite;
-}
-.conn-1{
-  width:80px;
-  top:35%;
-  left:35%;
-  transform:rotate(25deg);
-}
-.conn-2{
-  width:80px;
-  top:35%;
-  right:35%;
-  transform:rotate(-25deg);
-}
-.conn-3{
-  width:60px;
-  bottom:35%;
-  left:50%;
-  transform:translateX(-50%) rotate(90deg);
-}
-@keyframes data-flow{
-  0%{background-position:-100% 0}
-  100%{background-position:100% 0}
+.project-icon.raft{
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
 }
 
-.project-content{padding:1.75rem}
 .project-title{
-  font-size:1.375rem;
+  font-size:1.25rem;
   font-weight:700;
-  margin-bottom:.75rem;
 }
-.project-description{
+
+.project-body{
+  padding:1.5rem;
+}
+
+.project-desc{
   color:var(--text-secondary);
-  font-size:.9375rem;
+  font-size:0.9375rem;
   margin-bottom:1.25rem;
   line-height:1.6;
 }
+
 .project-metrics{
   display:flex;
-  gap:.5rem;
+  gap:0.75rem;
   flex-wrap:wrap;
   margin-bottom:1.25rem;
 }
+
 .metric{
+  padding:0.375rem 0.75rem;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:6px;
   font-family:'JetBrains Mono',monospace;
-  font-size:.75rem;
-  padding:.375rem .75rem;
-  background:var(--accent-glow);
-  color:var(--accent);
-  border-radius:4px;
-  border:1px solid var(--accent-glow);
+  font-size:0.6875rem;
+  color:var(--text-secondary);
 }
-.project-stack{
+
+.project-tags{
   display:flex;
-  gap:.5rem;
+  gap:0.5rem;
   flex-wrap:wrap;
   margin-bottom:1.5rem;
 }
-.project-stack span{
-  font-size:.8125rem;
-  color:var(--text-secondary);
-  padding:.25rem .625rem;
-  background:#ffffff08;
+
+.tag{
+  padding:0.25rem 0.625rem;
+  background:var(--bg);
   border-radius:4px;
+  font-size:0.75rem;
+  color:var(--text-secondary);
 }
+
 .project-links{
   display:flex;
   gap:1rem;
-  align-items:center;
 }
-.link-live{
-  color:var(--accent);
-  font-weight:600;
+
+.project-links a{
+  font-size:0.875rem;
+  font-weight:500;
   text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:.375rem;
-  transition:gap .2s ease;
+  transition:color 0.2s;
 }
-.link-live:hover{gap:.625rem}
-.link-code{
+
+.link-primary{
+  color:var(--accent);
+}
+
+.link-primary:hover{
+  color:var(--accent-light);
+}
+
+.link-secondary{
   color:var(--text-secondary);
-  font-size:.9375rem;
-  text-decoration:none;
 }
-.link-code:hover{color:var(--text)}
 
-/* === PROCESS === */
-.process{padding:8rem 8%;background:#08080c}
-.process-steps{
-  max-width:800px;
-  margin:0 auto;
-  position:relative;
+.link-secondary:hover{
+  color:var(--text);
 }
-.step{
+
+/* PROCESS */
+.process-grid{
   display:grid;
-  grid-template-columns:auto 1fr;
+  grid-template-columns:repeat(3,1fr);
   gap:1.5rem;
-  padding:2.5rem 0;
-  position:relative;
-}
-.step-number{
-  font-family:'JetBrains Mono',monospace;
-  font-size:3rem;
-  font-weight:800;
-  color:var(--accent);
-  opacity:.3;
-  line-height:1;
-  transition:opacity .3s ease;
-}
-.step:hover .step-number{opacity:1}
-.step-title{
-  font-size:1.5rem;
-  font-weight:700;
-  margin-bottom:.75rem;
-}
-.step-description{color:var(--text-secondary);line-height:1.7}
-.step-connector{
-  width:2px;
-  height:60px;
-  background:linear-gradient(to bottom,var(--accent),transparent);
-  margin-left:1.5rem;
-  opacity:.3;
 }
 
-/* === WRITING === */
-.writing{padding:8rem 8%}
-.blog-card{
-  max-width:700px;
+@media(max-width:768px){
+  .process-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+.process-card{
   padding:2rem;
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:12px;
-  transition:all .3s ease;
 }
-.blog-card:hover{
-  border-color:var(--accent);
-  transform:translateX(8px);
+
+.process-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:2.5rem;
+  font-weight:700;
+  color:var(--accent);
+  opacity:0.3;
+  margin-bottom:1rem;
 }
-.blog-meta{
+
+.process-title{
+  font-size:1.125rem;
+  font-weight:600;
+  margin-bottom:0.75rem;
+}
+
+.process-desc{
+  color:var(--text-secondary);
+  font-size:0.9375rem;
+  line-height:1.6;
+}
+
+/* WRITING */
+.writing-card{
+  padding:2rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  max-width:800px;
+}
+
+.writing-meta{
   display:flex;
   gap:1rem;
   margin-bottom:1rem;
+  font-size:0.875rem;
 }
-.blog-date{
+
+.writing-date{
+  color:var(--text-secondary);
   font-family:'JetBrains Mono',monospace;
-  font-size:.8125rem;
-  color:var(--text-secondary);
 }
-.blog-tag{
-  font-size:.8125rem;
+
+.writing-tag{
   color:var(--accent);
-  padding:.25rem .625rem;
-  background:var(--accent-glow);
-  border-radius:4px;
 }
-.blog-title{
-  font-size:1.5rem;
-  font-weight:700;
-  margin-bottom:1rem;
-}
-.blog-title a{
-  color:var(--text);
-  text-decoration:none;
-  transition:color .2s ease;
-}
-.blog-title a:hover{color:var(--accent)}
-.blog-excerpt{
-  color:var(--text-secondary);
-  line-height:1.7;
-  margin-bottom:1.25rem;
-}
-.blog-link{
-  color:var(--accent);
+
+.writing-title{
+  font-size:1.25rem;
   font-weight:600;
+  margin-bottom:0.75rem;
+}
+
+.writing-title a{
+  color:var(--text);
   text-decoration:none;
 }
 
-/* === CONTACT === */
+.writing-title a:hover{
+  color:var(--accent);
+}
+
+.writing-excerpt{
+  color:var(--text-secondary);
+  line-height:1.7;
+  margin-bottom:1rem;
+}
+
+.writing-link{
+  color:var(--accent);
+  font-weight:500;
+  text-decoration:none;
+  font-size:0.875rem;
+}
+
+/* CONTACT */
 .contact{
-  padding:8rem 8%;
   text-align:center;
 }
-.contact-content{max-width:600px;margin:0 auto}
-.contact-title{font-size:clamp(2.5rem,6vw,4rem);margin-bottom:1rem}
-.contact-description{
-  color:var(--text-secondary);
-  font-size:1.125rem;
-  margin-bottom:2rem;
-}
+
 .contact-email{
   display:inline-block;
   font-family:'JetBrains Mono',monospace;
-  font-size:1.5rem;
+  font-size:1.25rem;
   color:var(--accent);
   text-decoration:none;
-  margin-bottom:2rem;
-  position:relative;
+  margin:1.5rem 0;
+  padding-bottom:0.25rem;
+  border-bottom:2px solid transparent;
+  transition:border-color 0.2s;
 }
-.contact-email::after{
-  content:'';
-  position:absolute;
-  bottom:-4px;
-  left:0;
-  width:100%;
-  height:2px;
-  background:var(--accent);
-  transform:scaleX(0);
-  transition:transform .3s ease;
+
+.contact-email:hover{
+  border-color:var(--accent);
 }
-.contact-email:hover::after{transform:scaleX(1)}
-.contact-actions{
+
+.contact-social{
   display:flex;
   gap:1rem;
   justify-content:center;
-  margin-bottom:3rem;
-  flex-wrap:wrap;
+  margin-bottom:2rem;
 }
-.contact-form{
-  display:grid;
-  gap:1rem;
-  text-align:left;
-}
-.contact-form input,
-.contact-form textarea{
-  padding:1rem;
+
+.social-link{
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:8px;
-  color:var(--text);
-  font-family:inherit;
-  font-size:.9375rem;
-  transition:border-color .2s ease;
+  color:var(--text-secondary);
+  text-decoration:none;
+  font-size:0.875rem;
+  font-weight:600;
+  transition:all 0.2s;
 }
-.contact-form input:focus,
-.contact-form textarea:focus{
-  outline:none;
-  border-color:var(--accent);
-}
-.contact-form textarea{min-height:120px;resize:vertical}
 
-/* === FOOTER === */
+.social-link:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:translateY(-2px);
+}
+
+/* FOOTER */
 .footer{
-  padding:3rem 8%;
+  padding:3rem 5%;
   text-align:center;
   border-top:1px solid var(--border);
   color:var(--text-secondary);
-  font-size:.875rem;
-}
-.footer-meta{
-  margin-top:.5rem;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.75rem;
+  font-size:0.875rem;
 }
 
-/* === ANIMATIONS === */
-@keyframes fadeInUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.animate-in{animation:fadeInUp .6s ease forwards}
-
-/* === RESPONSIVE === */
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding:6rem 5%}
-  .hero-visual{display:none}
-  section{padding:5rem 5%!important}
-  .projects-grid{grid-template-columns:1fr}
-  .step{grid-template-columns:1fr;gap:1rem}
-  .step-number{font-size:2rem}
-  .step-connector{display:none}
+/* MOBILE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero{flex-direction:column;padding-top:6rem}
+  .hero-stats{gap:1.5rem}
+  .projects{grid-template-columns:1fr}
+  .hero-cta{flex-direction:column}
+  .btn{width:100%;justify-content:center}
 }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
+<nav class="nav">
+  <a href="#" class="logo">VS.</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-eyebrow">Backend Engineer</div>
-    <h1 class="hero-title">
-      Vignesh Sai
-      <span class="hero-subtitle">2 Production SaaS • 100% Uptime • &lt;50ms Response</span>
-    </h1>
-    <p class="hero-description">
-      I build backend systems that scale, survive, and perform. FastAPI, PostgreSQL, Docker, and custom distributed systems.
-    </p>
-    <div class="hero-cta">
-      <a href="#proof" class="btn btn-primary">View Projects</a>
-      <a href="mailto:vigneshsai52@gmail.com" class="btn btn-ghost">Hire Me</a>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div class="code-window">
-      <div class="code-header">
-        <span></span><span></span><span></span>
+    <div class="hero-badge">Backend Engineer</div>
+    <h1 class="hero-title">Vignesh Sai <span>—</span> Production Systems</h1>
+    <p class="hero-desc">I build backend infrastructure that scales. Two production SaaS applications, distributed systems, and AI integration. FastAPI, PostgreSQL, Docker, Go.</p>
+    
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">100%</span>
+        <span class="stat-label">Uptime</span>
       </div>
-      <pre class="code-body" id="codeBody"><span class="code-comment"># Production API Response</span>
-<span class="code-key">status</span>: <span class="code-value">200 OK</span>
-<span class="code-key">uptime</span>: <span class="code-value">100%</span>
-<span class="code-key">p95_latency</span>: <span class="code-value">47ms</span>
-<span class="code-key">requests</span>: <span class="code-value">3,203/sec</span></pre>
+      <div class="stat">
+        <span class="stat-value">&lt;50ms</span>
+        <span class="stat-label">Latency</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">3,203</span>
+        <span class="stat-label">Ops/Sec</span>
+      </div>
+    </div>
+    
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">View Projects</a>
+      <a href="mailto:vigneshsai52@gmail.com" class="btn btn-secondary">Get in Touch</a>
     </div>
   </div>
 </section>
 
-<!-- PROOF -->
-<section id="proof" class="proof">
+<section id="work">
   <div class="section-header">
-    <span class="section-eyebrow">Selected Work</span>
+    <div class="section-label">Selected Work</div>
     <h2 class="section-title">Production Systems</h2>
   </div>
-
-  <div class="projects-grid">
-
-    <!-- Card 1: SplitBill Pro -->
-    <article class="project-card" data-tilt>
-      <div class="project-visual splitbill-visual"></div>
-      <div class="project-content">
+  
+  <div class="projects">
+    
+    <article class="project">
+      <div class="project-header">
+        <div class="project-icon splitbill">⚡</div>
         <h3 class="project-title">SplitBill Pro</h3>
-        <p class="project-description">
-          Production-grade expense splitting SaaS. 100% uptime, sub-50ms response, JWT auth, Docker deployment.
-        </p>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">Production-grade expense splitting SaaS. 100% uptime, sub-50ms response times, JWT authentication, Docker deployment on Render.</p>
         <div class="project-metrics">
           <span class="metric">100% uptime</span>
           <span class="metric">~50ms p95</span>
           <span class="metric">5+ tables</span>
         </div>
-        <div class="project-stack">
-          <span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>JWT</span>
+        <div class="project-tags">
+          <span class="tag">FastAPI</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Docker</span>
+          <span class="tag">JWT</span>
         </div>
         <div class="project-links">
-          <a href="https://splitbill-pro-two.vercel.app/" target="_blank" rel="noopener" class="link-live">Live Demo →</a>
-          <a href="https://github.com/vigneshsai52/splitbill-pro" target="_blank" rel="noopener" class="link-code">Code</a>
+          <a href="https://splitbill-pro-two.vercel.app/" class="link-primary" target="_blank">Live Demo →</a>
+          <a href="https://github.com/vigneshsai52/splitbill-pro" class="link-secondary" target="_blank">GitHub</a>
         </div>
       </div>
     </article>
-
-    <!-- Card 2: ContractScan -->
-    <article class="project-card" data-tilt>
-      <div class="project-visual contractscan-visual">
-        <div class="scan-line"></div>
-      </div>
-      <div class="project-content">
+    
+    <article class="project">
+      <div class="project-header">
+        <div class="project-icon contract">📄</div>
         <h3 class="project-title">ContractScan</h3>
-        <p class="project-description">
-          AI-powered legal contract analyzer. $0 infrastructure cost, 70% faster review, modular Flask architecture.
-        </p>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">AI-powered legal contract analyzer. $0 infrastructure cost using Groq API, 70% faster review, modular Flask architecture.</p>
         <div class="project-metrics">
           <span class="metric">$0 AI cost</span>
           <span class="metric">70% faster</span>
           <span class="metric">5+ formats</span>
         </div>
-        <div class="project-stack">
-          <span>Flask</span><span>Groq API</span><span>LLM</span><span>PyPDF2</span>
+        <div class="project-tags">
+          <span class="tag">Flask</span>
+          <span class="tag">Groq API</span>
+          <span class="tag">LLM</span>
+          <span class="tag">PyPDF2</span>
         </div>
         <div class="project-links">
-          <a href="https://documind-ai-roan.vercel.app/" target="_blank" rel="noopener" class="link-live">Live Demo →</a>
-          <a href="https://github.com/vigneshsai52/contractscan" target="_blank" rel="noopener" class="link-code">Code</a>
+          <a href="https://documind-ai-roan.vercel.app/" class="link-primary" target="_blank">Live Demo →</a>
+          <a href="https://github.com/vigneshsai52/contractscan" class="link-secondary" target="_blank">GitHub</a>
         </div>
       </div>
     </article>
-
-    <!-- Card 3: RaftKV -->
-    <article class="project-card" data-tilt>
-      <div class="project-visual raftkv-visual">
-        <div class="node node-1"></div>
-        <div class="node node-2"></div>
-        <div class="node node-3"></div>
-        <div class="connection conn-1"></div>
-        <div class="connection conn-2"></div>
-        <div class="connection conn-3"></div>
-      </div>
-      <div class="project-content">
+    
+    <article class="project">
+      <div class="project-header">
+        <div class="project-icon raft">🌐</div>
         <h3 class="project-title">RaftKV</h3>
-        <p class="project-description">
-          Distributed key-value store with custom Raft consensus. 3,203 ops/sec, automatic leader failover, 3-node cluster.
-        </p>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">Distributed key-value store with custom Raft consensus. 3,203 ops/sec, automatic leader failover, 3-node cluster, WAL persistence.</p>
         <div class="project-metrics">
           <span class="metric">3,203 ops/sec</span>
           <span class="metric">&lt;2s failover</span>
           <span class="metric">3-node cluster</span>
         </div>
-        <div class="project-stack">
-          <span>Go</span><span>Raft</span><span>Docker</span><span>WAL</span>
+        <div class="project-tags">
+          <span class="tag">Go</span>
+          <span class="tag">Raft</span>
+          <span class="tag">Docker</span>
+          <span class="tag">WAL</span>
         </div>
         <div class="project-links">
-          <a href="https://github.com/vigneshsai52/raftkv" target="_blank" rel="noopener" class="link-code">View Code →</a>
+          <a href="https://github.com/vigneshsai52/raftkv" class="link-primary" target="_blank">View Code →</a>
         </div>
       </div>
     </article>
-
+    
   </div>
 </section>
 
-<!-- PROCESS -->
-<section id="process" class="process">
+<section id="process">
   <div class="section-header">
-    <span class="section-eyebrow">How I Build</span>
+    <div class="section-label">How I Build</div>
     <h2 class="section-title">Ship, Measure, Optimize</h2>
   </div>
-
-  <div class="process-steps">
-
-    <div class="step" data-step="1">
-      <div class="step-number">01</div>
-      <div>
-        <h3 class="step-title">Architect for Scale</h3>
-        <p class="step-description">
-          Design normalized databases, modular services, and clear APIs before writing production code. SplitBill Pro's 5-table schema handles concurrent users without locks.
-        </p>
-      </div>
+  
+  <div class="process-grid">
+    <div class="process-card">
+      <div class="process-num">01</div>
+      <h3 class="process-title">Architect for Scale</h3>
+      <p class="process-desc">Design normalized databases, modular services, and clear APIs before writing production code.</p>
     </div>
-
-    <div class="step-connector"></div>
-
-    <div class="step" data-step="2">
-      <div class="step-number">02</div>
-      <div>
-        <h3 class="step-title">Ship with Metrics</h3>
-        <p class="step-description">
-          Deploy with monitoring from day one. UptimeRobot for availability, custom benchmarks for performance. If it doesn't have a number, it doesn't exist.
-        </p>
-      </div>
+    <div class="process-card">
+      <div class="process-num">02</div>
+      <h3 class="process-title">Ship with Metrics</h3>
+      <p class="process-desc">Deploy with monitoring from day one. If it doesn't have a number, it doesn't exist.</p>
     </div>
-
-    <div class="step-connector"></div>
-
-    <div class="step" data-step="3">
-      <div class="step-number">03</div>
-      <div>
-        <h3 class="step-title">Optimize Ruthlessly</h3>
-        <p class="step-description">
-          Profile, benchmark, iterate. ContractScan's 70% speed gain came from structured prompt engineering, not bigger models. Efficiency &gt; brute force.
-        </p>
-      </div>
+    <div class="process-card">
+      <div class="process-num">03</div>
+      <h3 class="process-title">Optimize Ruthlessly</h3>
+      <p class="process-desc">Profile, benchmark, iterate. Efficiency beats brute force every time.</p>
     </div>
-
   </div>
 </section>
 
-<!-- WRITING -->
-<section id="writing" class="writing">
+<section id="writing">
   <div class="section-header">
-    <span class="section-eyebrow">Latest Writing</span>
+    <div class="section-label">Latest Writing</div>
     <h2 class="section-title">Thinking in Production</h2>
   </div>
-
-  <article class="blog-card">
-    <div class="blog-meta">
-      <span class="blog-date">Jun 2025</span>
-      <span class="blog-tag">Distributed Systems</span>
+  
+  <article class="writing-card">
+    <div class="writing-meta">
+      <span class="writing-date">Jun 2025</span>
+      <span class="writing-tag">Distributed Systems</span>
     </div>
-    <h3 class="blog-title">
-      <a href="#">Implementing Raft from Scratch: Why Consensus Algorithms Matter</a>
-    </h3>
-    <p class="blog-excerpt">
-      I built a distributed key-value store to understand leader election, log replication, and failure recovery. Here's what I learned about building systems that survive network partitions and node crashes — and why most tutorials get it wrong.
-    </p>
-    <a href="#" class="blog-link">Read on Medium →</a>
+    <h3 class="writing-title"><a href="#">Implementing Raft from Scratch</a></h3>
+    <p class="writing-excerpt">I built a distributed key-value store to understand leader election, log replication, and failure recovery. Here's what I learned about building systems that survive network partitions.</p>
+    <a href="#" class="writing-link">Read on Medium →</a>
   </article>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="contact">
-  <div class="contact-content">
-    <span class="section-eyebrow">Let's Build</span>
-    <h2 class="contact-title">Hire Me</h2>
-    <p class="contact-description">
-      Open to backend engineering roles. SaaS, distributed systems, AI infrastructure. Remote or Chennai.
-    </p>
-
-    <a href="mailto:vigneshsai52@gmail.com" class="contact-email">
-      vigneshsai52@gmail.com
-    </a>
-
-    <div class="contact-actions">
-      <a href="https://calendly.com/vigneshsai52" target="_blank" rel="noopener" class="btn btn-primary">Schedule Call</a>
-      <a href="https://linkedin.com/in/uvigneshsai52" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
-      <a href="https://github.com/vigneshsai52" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
-    </div>
-
-    <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="text" name="name" placeholder="Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <textarea name="message" placeholder="Project details or role description..." required></textarea>
-      <button type="submit" class="btn btn-primary">Send Message</button>
-    </form>
+  <div class="section-header">
+    <div class="section-label">Get in Touch</div>
+    <h2 class="section-title">Let's Build Together</h2>
+  </div>
+  
+  <a href="mailto:vigneshsai52@gmail.com" class="contact-email">vigneshsai52@gmail.com</a>
+  
+  <div class="contact-social">
+    <a href="https://github.com/vigneshsai52" class="social-link" target="_blank">GH</a>
+    <a href="https://linkedin.com/in/uvigneshsai52" class="social-link" target="_blank">LI</a>
+    <a href="https://calendly.com/vigneshsai52" class="social-link" target="_blank">Cal</a>
   </div>
 </section>
 
 <footer class="footer">
   <p>© 2026 Vignesh Sai — Backend Engineer</p>
-  <p class="footer-meta">Built with FastAPI, PostgreSQL, and caffeine</p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script>
-// Register GSAP
-gsap.registerPlugin(ScrollTrigger);
-
-// Animate sections on scroll
-gsap.utils.toArray('section').forEach(section => {
-  const targets = section.querySelectorAll('.section-header, .project-card, .step, .blog-card');
-  if(targets.length){
-    gsap.from(targets, {
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 80%',
-        toggleActions: 'play none none reverse'
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power2.out'
-    });
-  }
-});
-
-// Code window type effect
-const codeBody = document.getElementById('codeBody');
-if(codeBody){
-  const original = codeBody.innerHTML;
-  codeBody.innerHTML = '';
-  let i = 0;
-  const type = () => {
-    if(i < original.length){
-      codeBody.innerHTML = original.slice(0, i+1);
-      i++;
-      setTimeout(type, 8);
-    }
-  };
-  setTimeout(type, 500);
-}
-
-// Tilt effect for cards (vanilla)
-document.querySelectorAll('[data-tilt]').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-  });
-});
-
-// Smooth scroll for nav
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e){
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if(target) target.scrollIntoView({behavior: 'smooth'});
-  });
-});
-</script>
 </body>
 </html>
